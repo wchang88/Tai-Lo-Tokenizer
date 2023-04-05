@@ -1,4 +1,5 @@
 import re
+from string import punctuation
 
 class TailoTokenizer():
    def __init__(self):
@@ -14,7 +15,7 @@ class TailoTokenizer():
 
    def tokenize(self, word):
       for onset in self.initial:
-         if word.find(onset) == 0:
+         if word.lower().find(onset) == 0:
             if onset[-1] == 'i':
                return [word[:len(onset)], word[len(onset) - 1:]]
             else:
@@ -23,11 +24,13 @@ class TailoTokenizer():
    
    def tokenize_sentence(self, sent):
       tokens = []
-      for word in re.split(r' |(-+)', sent):
+      for word in re.split(r' |([%s]+)' % re.escape(punctuation), sent):
          if word is not None:
-            if '-' in word:
+            if re.search(r'[%s]+' % re.escape(punctuation), word):
+               # if any combination of punctuation
                tokens.append(word)
             else:
+               # if a tai-lo romanization
                tokens.extend(self.tokenize(word))
       return tokens
    
