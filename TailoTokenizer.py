@@ -36,5 +36,5 @@ class TailoTokenizer():
          with open(output_f, 'w') as out_f:
             line = in_f.readline()
             while line:
-               out_f.write(" ".join(self.tokenize_sentence(line)) + "\n")
+               out_f.write(" ".join(self.tokenize_sentence(line)))
                line = in_f.readline()
